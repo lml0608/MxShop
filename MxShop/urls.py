@@ -22,7 +22,20 @@ from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 
 
-from goods.views import GoodsListView
+from goods.views import GoodsListViewset
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+#配置goods的URL
+router.register(r'goods',GoodsListViewset)
+
+# goods_list = GoodsListViewset.as_view(
+#     {
+#         'get':'list',
+#         #'post': 'create'
+#     }
+# )
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -31,7 +44,8 @@ urlpatterns = [
 
     #商品列表页
 
-    url(r'goods/$',GoodsListView.as_view(),name='good-list'),
+    #url(r'goods/$',goods_list,name='goods-list'),
+    url(r'^',include(router.urls)),
 
     url(r'docs/',include_docs_urls(title='暮学生鲜')),
 
