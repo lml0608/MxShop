@@ -9,7 +9,7 @@ from goods.models import Goods
 from django.http import HttpResponse,JsonResponse
 import json
 
-class GoodListView(View):
+class GoodsListView(View):
     def get(self,request):
 
         json_list = []
