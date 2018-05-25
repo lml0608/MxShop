@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'rest_framework',
+    'django_filters',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'MxShop.urls'
 
 TEMPLATES = [
