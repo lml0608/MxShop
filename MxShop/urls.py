@@ -23,14 +23,18 @@ from rest_framework.documentation import include_docs_urls
 
 
 from goods.views import GoodsListViewset,CategoryViewset
+from users.views import SmsCodeViewset,UserViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from rest_framework_jwt.views import obtain_jwt_token
 
 router = DefaultRouter()
 
 #配置goods的URL
 router.register(r'goods',GoodsListViewset,base_name="goods")
-router.register(r'categorys',CategoryViewset,base_name="goods")
+router.register(r'categorys',CategoryViewset,base_name="categorys")
+router.register(r'codes',SmsCodeViewset,base_name="codes")
+router.register(r'users',UserViewSet,base_name="users")
 
 # goods_list = GoodsListViewset.as_view(
 #     {
@@ -53,6 +57,10 @@ urlpatterns = [
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r'^api-tolen-auth/',views.obtain_auth_token),
+    url(r'^api-token-auth/',views.obtain_auth_token),
+    url(r'^jwt-auth/', obtain_jwt_token),
+    #url(r'^api-token-auth/', obtain_jwt_token),
 ]
 
+#云片网key
+#c2f1d12148612fdd17ba394a007b01bc

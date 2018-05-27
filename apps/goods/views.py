@@ -16,6 +16,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .filters import GoodsFilter
 from rest_framework import filters
+from rest_framework.authentication import TokenAuthentication
 
 # Create your views here.
 # class GoodsListView(APIView):
@@ -41,6 +42,10 @@ class GoodsListViewset(mixins.ListModelMixin,viewsets.GenericViewSet):
     serializer_class = GoodsSerializer
 
     pagination_class = StandarResultsSetPagination
+
+    #针对接口做认证
+    #authentication_classes = (TokenAuthentication,)
+
     filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
 
     filter_class = GoodsFilter
