@@ -44,18 +44,22 @@ class SmsSerializer(serializers.Serializer):
 
 class UserRegSerializer(serializers.ModelSerializer):
 
-    #required是指没有code 字段时提示。blank 有字段，值为空
-    code = serializers.CharField(required=True,max_length=4, min_length=4,
+    #required是指没有code 字段时提示。blank 有字段，值为空,write_only，就不会拿这个字段去序列化了，
+    code = serializers.CharField(required=True,write_only=True,max_length=4, min_length=4,
                                  error_messages={
                                      "blank":"请输入验证码",
                                      "required":"请输入验证码",
                                      "max_length":"验证码格式错误",
                                      "min_length":"验证码格式错误"
-                                 },
+                                 },label="验证码",
                                  help_text="验证码")
 
     username = serializers.CharField(required=True,allow_blank=False,
                                      validators=[UniqueValidator(queryset=User.objects.all(),message="用户已经存在")])
+
+    password = serializers.CharField(
+        style={'input_type': 'password'}, help_text="密码", label="密码", write_only=True,
+    )
 
     def validate_code(self, code):
 
@@ -88,4 +92,4 @@ class UserRegSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("username",'code','mobile')
+        fields = ("username",'code','mobile','password')
