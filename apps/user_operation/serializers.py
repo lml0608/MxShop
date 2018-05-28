@@ -13,5 +13,5 @@ class UserFavSerializer(serializers.ModelSerializer):
 
         model = UserFav
 
-        fields = ("user","goods")
+        fields = ("user","goods","id")
 

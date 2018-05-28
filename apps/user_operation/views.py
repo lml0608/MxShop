@@ -8,7 +8,7 @@ from .models import UserFav
 
 
 
-class UserFavViewset(mixins.CreateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
+class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
 
     """
     用户收藏功能接口
