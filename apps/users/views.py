@@ -1,17 +1,20 @@
 from django.shortcuts import render
-
+from django.contrib.auth import get_user_model
 from .serializers import SmsSerializer,UserRegSerializer
 from rest_framework import mixins
 from rest_framework import viewsets
 
 from rest_framework.response import Response
 
+from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
 from rest_framework import status
 
 from utils.yunpian import YunPian
 from MxShop.settings import API_KEY
 from random import random,choice
 from .models import VerifyCode
+
+User = get_user_model()
 
 class SmsCodeViewset(mixins.CreateModelMixin,viewsets.GenericViewSet):
 
@@ -67,3 +70,24 @@ class UserViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
     """
 
     serializer_class = UserRegSerializer
+    queryset = User.objects.all()
+
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+
+        re_dict = serializer.data
+        payload = jwt_payload_handler(user)
+        re_dict["token"] = jwt_encode_handler(payload)
+        re_dict["name"] = user.name if user.name else user.username
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+
+

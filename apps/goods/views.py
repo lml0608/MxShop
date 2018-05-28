@@ -29,7 +29,7 @@ class StandarResultsSetPagination(PageNumberPagination):
     page_query_param = "p"
     max_page_size = 100
 
-class GoodsListViewset(mixins.ListModelMixin,viewsets.GenericViewSet):
+class GoodsListViewset(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
 
 
     """
